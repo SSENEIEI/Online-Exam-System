@@ -191,7 +191,7 @@ Licensed under MIT License. ดู LICENSE file สำหรับรายล�
 
 ## 🏆 Credits
 
-พัฒนาโดย OES Technology Team
+พัฒนาโดย OES Technology Team (ทีมก็คือทำคนเดียว T-T )
 - Google Gemini AI Integration
 - Modern Web Technologies
 - Security Best Practices
@@ -200,3 +200,5 @@ Licensed under MIT License. ดู LICENSE file สำหรับรายล�
 
 **Version:** 1.0.0  
 **Last Updated:** August 26, 2024
+
+ปล. จริงๆ อยากทำเป็น java แล้ว ใช้ tidb เป็นฐานข้อมูลออนไลน์ deploy ใน vercel ก็ได้ละ แต่งานเยอะเดะค่อยมาทำนะ จุ้บๆ 
