@@ -33,6 +33,10 @@
     --container-width: 1200px;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 /* Dark mode support - Refined */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -1081,6 +1085,7 @@ button:hover, .button:hover {
 .portal-card-link {
     text-decoration: none;
     color: inherit;
+    display: block;
 }
 
 /* Code Input Styles */
@@ -1612,4 +1617,175 @@ textarea, input[type="text"] {
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
+}
+
+/* =========================================
+   Mobile Responsive Enhancements
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* General Layout */
+    .container {
+        width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    header {
+        padding: 15px;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    /* Exam Generator Layout (Student Practice) */
+    .exam-generator {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .config-panel, 
+    .chat-panel, 
+    .preview-panel {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    /* Form Elements */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="email"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px; /* Prevent zoom on iOS */
+        box-sizing: border-box;
+    }
+
+    /* Mixed Inputs (e.g., MCQ + Written count) */
+    .mixed-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Chat Interface */
+    .chat-input {
+        flex-direction: column;
+    }
+
+    .chat-input textarea {
+        min-height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .chat-input button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    /* Buttons */
+    button, .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        display: block;
+        text-align: center;
+    }
+
+    /* Tables (Responsive Scroll) */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    /* Cards & Grids */
+    .role-cards {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+
+    .portal-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 30px 20px;
+    }
+
+    .portal-card-link {
+        width: 100%;
+    }
+
+    /* Exam Taking Interface */
+    .question-block {
+        padding: 15px;
+    }
+
+    .choices-list label {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+
+    /* Timer */
+    #timer-container {
+        top: 10px;
+        right: 10px;
+        width: 60px;
+        height: 60px;
+    }
+    
+    #timer-countdown {
+        font-size: 14px;
+    }
+
+    /* Navigation/Header Actions */
+    header div[style*="display: flex"] {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    header .btn.secondary {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 1.8rem;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .value-title {
+        font-size: 1.5rem;
+    }
 }
