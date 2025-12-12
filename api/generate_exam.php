@@ -13,14 +13,39 @@ require_once '../config/config.php';
  * @return array The API response decoded as an associative array.
  */
 function sendApiRequest($url, $data) {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Use for local development (XAMPP)
-    $response = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    $maxRetries = 3;
+    $attempt = 0;
+    $response = null;
+    $httpcode = 0;
+
+    do {
+        $attempt++;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Use for local development (XAMPP)
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpcode == 200) {
+            return json_decode($response, true);
+        }
+
+        // Retry on 503 (Overloaded), 429 (Rate Limit), or 5xx Server Errors
+        if (in_array($httpcode, [429, 500, 502, 503, 504])) {
+            if ($attempt < $maxRetries) {
+                // Exponential backoff: 1s, 2s, 4s
+                sleep(pow(2, $attempt - 1)); 
+                continue;
+            }
+        } else {
+            // Non-retryable error (e.g. 400 Bad Request, 401 Unauthorized)
+            break;
+        }
+
+    } while ($attempt < $maxRetries);
 
     if ($httpcode != 200) {
         // Log error or handle it appropriately
