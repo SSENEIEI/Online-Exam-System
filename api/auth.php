@@ -21,6 +21,7 @@ if ($action === 'login') {
     
     if ($row = $result->fetch_assoc()) {
         if (password_verify($password, $row['password'])) {
+            session_regenerate_id(true); // Regenerate session ID on login
             $_SESSION['teacher_id'] = $row['id'];
             $_SESSION['teacher_name'] = $row['full_name'];
             echo json_encode(['success' => true]);

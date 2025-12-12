@@ -110,7 +110,7 @@ function validateEmail($email) {
  * Session Management
  */
 session_start();
-session_regenerate_id(true);
+// session_regenerate_id(true); // Removed to prevent session loss on concurrent requests
 
 // Session timeout
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > SESSION_TIMEOUT)) {
