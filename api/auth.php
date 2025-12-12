@@ -21,9 +21,10 @@ if ($action === 'login') {
     
     if ($row = $result->fetch_assoc()) {
         if (password_verify($password, $row['password'])) {
-            session_regenerate_id(true); // Regenerate session ID on login
+            // session_regenerate_id(true); // ปิดไว้ชั่วคราวเพื่อแก้ปัญหา Session หลุด
             $_SESSION['teacher_id'] = $row['id'];
             $_SESSION['teacher_name'] = $row['full_name'];
+            session_write_close(); // บันทึก Session ทันที
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'error' => 'รหัสผ่านไม่ถูกต้อง']);
