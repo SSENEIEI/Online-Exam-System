@@ -109,15 +109,35 @@ function validateEmail($email) {
 /**
  * Session Management
  */
+// Ensure session path is writable (especially for Render/Cloud environments)
+if (getenv('RENDER') || getenv('DYNO')) { // Check if running on Render or Heroku
+    $sessionPath = '/tmp';
+    if (is_dir($sessionPath) && is_writable($sessionPath)) {
+        session_save_path($sessionPath);
+    }
+}
+
+// Set session cookie parameters for better security and persistence
+session_set_cookie_params([
+    'lifetime' => SESSION_TIMEOUT,
+    'path' => '/',
+    'domain' => '', // Current domain
+    'secure' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'), // True if HTTPS
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
 session_start();
 // session_regenerate_id(true); // Removed to prevent session loss on concurrent requests
 
-// Session timeout
+// Session timeout (Disabled temporarily to debug session loss issue)
+/*
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > SESSION_TIMEOUT)) {
     session_unset();
     session_destroy();
     session_start();
 }
+*/
 $_SESSION['LAST_ACTIVITY'] = time();
 
 /**
