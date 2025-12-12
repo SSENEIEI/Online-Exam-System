@@ -11,6 +11,12 @@ function escapeHtml(str = '') {
   return str.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+function getRootPath() {
+  const path = window.location.pathname;
+  if (path.includes('/pages/')) return path.split('/pages/')[0];
+  return path.substring(0, path.lastIndexOf('/'));
+}
+
 // -------- Practice (state) --------
 let practiceQuestions = [];            // Raw questions (API format)
 let practiceExamMeta = { title: '', timer_minutes: 0 };
@@ -54,19 +60,15 @@ function initEnterExamForm() {
     let code = '';
     codeInputs.forEach(i => code += i.value);
     if (code.length !== 6) return alert('กรุณากรอกรหัสข้อสอบ 6 หลักให้ครบ');
-    const path = window.location.pathname.replace(/(\/pages)+\//g, '/pages/');
-    const parts = path.split('/').filter(p => p);
-    const root = parts.length ? `/${parts[0]}` : '';
+    const root = getRootPath();
     const target = `${root}/pages/take_exam.php?code=${code}`;
-    console.debug('[redirect exam]', { path, target });
+    console.debug('[redirect exam]', { root, target });
     window.location.assign(target);
   });
 
   const practiceBtn = document.getElementById('create-practice-btn');
   if (practiceBtn) practiceBtn.addEventListener('click', () => {
-    const path = window.location.pathname.replace(/(\/pages)+\//g, '/pages/');
-    const parts = path.split('/').filter(p => p);
-    const root = parts.length ? `/${parts[0]}` : '';
+    const root = getRootPath();
     window.location.href = `${root}/pages/student_practice.php`;
   });
 }
